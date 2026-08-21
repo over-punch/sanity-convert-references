@@ -36,15 +36,21 @@
 	},
 	"homepage": "https://github.com/Liiift-Studio/sanity-convert-references#readme",
 	"peerDependencies": {
-		"@sanity/icons": "^2.0.0 || ^3.0.0",
-		"@sanity/ui": "^1.0.0 || ^2.0.0 || ^3.0.0",
+		"@sanity/icons": ">=2 <6",
+		"@sanity/ui": ">=2 <5",
 		"react": "^18.0.0 || ^19.0.0",
-		"sanity": "^3.0.0 || ^4.0.0 || ^5.0.0"
+		"sanity": ">=3 <7"
 	},
 	"devDependencies": {
+		"@sanity/icons": "^5.2.1",
+		"@sanity/ui": "^4.0.5",
+		"@types/react": "^19.2.18",
 		"esbuild": "^0.25.0"
 	},
 	"publishConfig": {
 		"access": "public"
+	},
+	"dependencies": {
+		"@liiift-studio/sanity-ui-compat": "^0.1.0"
 	}
 }

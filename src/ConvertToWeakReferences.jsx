@@ -1,6 +1,6 @@
 // Component for converting strong references to weak references and checking reference integrity
-import { Stack, Grid, Heading, Text, Button, TextInput, Select, Card, Flex, Badge, Box } from '@sanity/ui'
-import { CollapseIcon, ExpandIcon, LockIcon, UnlockIcon } from '@sanity/icons'
+import { Stack, Grid, Heading, Text, Button, TextInput, Select, Card, Flex, Badge, Box } from '@liiift-studio/sanity-ui-compat'
+import { CollapseIcon, ExpandIcon, LockIcon, UnlockIcon } from '@liiift-studio/sanity-ui-compat/icons'
 import { useState, useEffect } from 'react'
 import DangerModeWarning, { shouldShowDangerWarning } from './DangerModeWarning'
 

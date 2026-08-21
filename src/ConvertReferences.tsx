@@ -12,10 +12,9 @@ import {
   TextInput,
   Checkbox,
   Badge,
-  Spinner,
-  Toast
-} from '@sanity/ui'
-import { TransferIcon, SearchIcon } from '@sanity/icons'
+  Spinner
+} from '@liiift-studio/sanity-ui-compat'
+import { TransferIcon, SearchIcon } from '@liiift-studio/sanity-ui-compat/icons'
 import { SanityClient } from 'sanity'
 
 export interface ConvertReferencesProps {

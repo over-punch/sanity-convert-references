@@ -1,6 +1,6 @@
 // Shared danger mode warning modal component
-import { Stack, Card, Heading, Text, Button, Checkbox, Box } from '@sanity/ui'
-import { WarningOutlineIcon } from '@sanity/icons'
+import { Stack, Card, Heading, Text, Button, Checkbox, Box } from '@liiift-studio/sanity-ui-compat'
+import { WarningOutlineIcon } from '@liiift-studio/sanity-ui-compat/icons'
 import { useState } from 'react'
 
 /**
