@@ -4,7 +4,8 @@
 
 [![npm version](https://img.shields.io/npm/v/@liiift-studio/sanity-convert-references.svg)](https://www.npmjs.com/package/@liiift-studio/sanity-convert-references)
 [![license](https://img.shields.io/npm/l/@liiift-studio/sanity-convert-references.svg)](https://www.npmjs.com/package/@liiift-studio/sanity-convert-references)
-[![Sanity v3 · v4 · v5](https://img.shields.io/badge/Sanity-v3%20%C2%B7%20v4%20%C2%B7%20v5-f03e2f.svg)](https://www.sanity.io/)
+[![Sanity Studio v3 to v6](https://img.shields.io/badge/Sanity-Studio_v3_to_v6-f03e2f.svg)](https://www.sanity.io/)
+![React](https://img.shields.io/badge/React-18_and_19-61dafb.svg)
 
 A Sanity Studio desk-tool panel that bulk-rewrites a document's **strong** references into **weak** references (`_weak: true`), and a companion scanner that finds references whose target no longer exists. Use it when a strong reference is blocking a delete/unpublish, or to audit a dataset for orphaned references.
 
@@ -13,6 +14,48 @@ A Sanity Studio desk-tool panel that bulk-rewrites a document's **strong** refer
 </p>
 
 A **strong** reference is referentially enforced — Sanity will not let you delete or unpublish a document while another document still strongly references it. A **weak** reference relaxes that constraint: the target can be deleted, and the reference is simply left dangling. Converting strong → weak is how you break those publish/delete locks for non-critical relationships.
+
+---
+
+## Blast radius
+
+The **Scan** mode is read-only and safe. The **Convert** mode is a bulk mutation.
+Read this before running Convert against a dataset you care about.
+
+| Question | Answer |
+|---|---|
+| **What does it mutate?** | **Every reference object in every matched document** gets `_weak: true` added. The patch sets the whole document back, not a targeted field path. |
+| **Does it delete?** | **No.** This tool never deletes documents — but converting a reference to weak **removes the guard that was stopping something else from being deleted.** That is the point of the tool, and the lasting consequence of running it. |
+| **Is it reversible?** | **Not by this tool.** There is no weak → strong mode. Reverting means stripping `_weak` yourself, or restoring from a `sanity dataset export` taken beforehand. |
+| **Drafts or published?** | **Both.** The query is `*[_type == … && title match …]` with **no `!(_id in path('drafts.**'))` filter**, so drafts of matching documents are matched and patched alongside their published versions. |
+| **Scope of a mistake** | Bounded by the type dropdown plus your `title` prefix — but *within* each matched document the conversion is total, including deeply nested references. |
+| **Scan mode** | Read-only. It only fetches; it never patches. |
+
+### Convert failures are silent
+
+The patch is issued **without `await` and without a `.catch()`**:
+
+```js
+client.patch(item._id).set(item).commit()   // not awaited
+```
+
+The surrounding `try/catch` cannot catch an async rejection, so **a patch that
+fails — permissions, validation, a network error — reports nothing.** The panel
+will continue through the list and may still finish looking successful. Verify
+the result in the Studio rather than trusting the on-screen message.
+
+Relatedly, the "All Updated!" message is driven by an off-by-one counter
+(`count == length - 1`), so it **never appears when exactly one document
+matched**, and fires one document early otherwise. Absence of the message does
+not mean the run failed.
+
+### Scan can report false positives
+
+Broken-reference detection resolves each target with `*[_id == $refId][0]`. A
+reference whose target currently exists **only as a draft** (`drafts.<id>`) will
+not resolve and is reported as broken even though publishing the draft would fix
+it. Check flagged IDs in the Studio before deleting anything on the strength of a
+scan.
 
 ---
 
@@ -26,12 +69,43 @@ npm install @liiift-studio/sanity-convert-references
 
 ### Requirements
 
-| Peer dependency | Supported range |
-|---|---|
-| `sanity`        | `^3.0.0 \|\| ^4.0.0 \|\| ^5.0.0` |
-| `@sanity/ui`    | `^1.0.0 \|\| ^2.0.0 \|\| ^3.0.0` |
-| `@sanity/icons` | `^2.0.0 \|\| ^3.0.0` |
-| `react`         | `^18.0.0 \|\| ^19.0.0` |
+This package supports **Sanity Studio v3, v4, v5 and v6** from a single build.
+
+| Peer dependency | Declared range | What that means |
+|---|---|---|
+| `sanity`        | `>=3 <7` | Studio **v3 through v6** |
+| `@sanity/ui`    | `>=2 <5` | v2, v3, v4 — see the note below, `<5` is **correct** for Studio v6 |
+| `@sanity/icons` | `>=2 <6` | v2 through v5 |
+| `react`         | `^18.0.0 \|\| ^19.0.0` | React 18 or 19 |
+
+> The `@sanity/ui` ceiling of `<5` looks like a mistake at a glance and is not.
+> **Studio v6 ships `@sanity/ui` v4, not v5** — so `>=2 <5` covers every Studio
+> major listed above.
+
+### How one build spans four Studio majors
+
+The two libraries made breaking changes that are invisible to the type-checker:
+
+- **`@sanity/ui` v4** moved `Tooltip`, `Menu`, `MenuButton`, `MenuItem`, `Code`,
+  `Popover`, `Autocomplete`, `Toast` and `useToast` out of the package root and
+  into subpath entries.
+- **`@sanity/icons` v5** removed every named `*Icon` export.
+
+The trap is that **both packages still *declare* the removed names in their
+`.d.ts`, typed as `never`.** A named import therefore type-checks cleanly,
+compiles, ships — and then throws at runtime in the Studio.
+
+So this package **imports no `@sanity/ui` or `@sanity/icons` symbol directly.**
+Every primitive and icon is routed through
+[`@liiift-studio/sanity-ui-compat`](https://www.npmjs.com/package/@liiift-studio/sanity-ui-compat),
+which resolves the *installed* namespace at runtime and falls back to a plain DOM
+element if a given primitive is absent. That indirection, not a version matrix in
+CI, is what makes one artifact work across v3–v6.
+
+> **How far this is actually verified.** v6 support rests on the declared peer
+> ranges, a green build, and use in three in-house Studios. It has **not** been
+> exercised broadly in a running Sanity 6 Studio — treat v6 as supported and
+> lightly travelled, and please file an issue if you hit a gap.
 
 ---
 
@@ -40,10 +114,12 @@ npm install @liiift-studio/sanity-convert-references
 The component renders a panel and needs a configured Sanity `client` passed as a prop. The simplest way to surface it is as a custom desk/structure tool.
 
 ```jsx
-import {ConvertToWeakReferences} from '@liiift-studio/sanity-convert-references'
+// The component is the package's DEFAULT export — a named import resolves to
+// `undefined` and React will throw "Element type is invalid" at render time.
+import ConvertToWeakReferences from '@liiift-studio/sanity-convert-references'
 import {useClient} from 'sanity'
 
-function ReferenceTools() {
+export function ReferenceTools() {
 	// Use an API version your dataset supports
 	const client = useClient({apiVersion: '2024-01-01'})
 	return <ConvertToWeakReferences client={client} />
