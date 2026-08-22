@@ -1,56 +1,56 @@
 {
-	"name": "@liiift-studio/sanity-convert-references",
-	"version": "2.0.1",
-	"description": "Reference optimization utility for Sanity Studio — convert strong to weak references and scan for broken references",
-	"main": "dist/index.js",
-	"module": "dist/index.js",
-	"exports": {
-		".": "./dist/index.js"
-	},
-	"files": [
-		"dist",
-		"src"
-	],
-	"scripts": {
-		"build": "esbuild src/index.jsx --bundle=true --format=esm --jsx=automatic --external:react --external:react-dom --external:sanity --external:@sanity/* --outfile=dist/index.js",
-		"prepublishOnly": "npm run build"
-	},
-	"keywords": [
-		"sanity",
-		"sanity-studio",
-		"references",
-		"weak-references",
-		"performance",
-		"optimization",
-		"utility",
-		"admin-tool"
-	],
-	"author": "Quinn Keaveney <hello@liiift.studio>",
-	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Liiift-Studio/sanity-convert-references.git"
-	},
-	"bugs": {
-		"url": "https://github.com/Liiift-Studio/sanity-convert-references/issues"
-	},
-	"homepage": "https://github.com/Liiift-Studio/sanity-convert-references#readme",
-	"peerDependencies": {
-		"@sanity/icons": ">=2 <6",
-		"@sanity/ui": ">=2 <5",
-		"react": "^18.0.0 || ^19.0.0",
-		"sanity": ">=3 <7"
-	},
-	"devDependencies": {
-		"@sanity/icons": "^5.2.1",
-		"@sanity/ui": "^4.0.5",
-		"@types/react": "^19.2.18",
-		"esbuild": "^0.25.0"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"dependencies": {
-		"@liiift-studio/sanity-ui-compat": "^0.1.0"
-	}
+  "name": "@liiift-studio/sanity-convert-references",
+  "version": "2.0.2",
+  "description": "Reference optimization utility for Sanity Studio — convert strong to weak references and scan for broken references",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "esbuild src/index.jsx --bundle=true --format=esm --jsx=automatic --external:react --external:react-dom --external:sanity --external:@sanity/* --outfile=dist/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "sanity",
+    "sanity-studio",
+    "references",
+    "weak-references",
+    "performance",
+    "optimization",
+    "utility",
+    "admin-tool"
+  ],
+  "author": "Quinn Keaveney <hello@liiift.studio>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Liiift-Studio/sanity-convert-references.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Liiift-Studio/sanity-convert-references/issues"
+  },
+  "homepage": "https://github.com/Liiift-Studio/sanity-convert-references#readme",
+  "peerDependencies": {
+    "@sanity/icons": ">=2 <6",
+    "@sanity/ui": ">=2 <5",
+    "react": "^18.0.0 || ^19.0.0",
+    "sanity": ">=3 <7"
+  },
+  "devDependencies": {
+    "@sanity/icons": "^5.2.1",
+    "@sanity/ui": "^4.0.5",
+    "@types/react": "^19.2.18",
+    "esbuild": "^0.25.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@liiift-studio/sanity-ui-compat": "^0.1.0"
+  }
 }
