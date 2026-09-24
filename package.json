@@ -1,5 +1,5 @@
 {
-  "name": "@liiift-studio/sanity-convert-references",
+  "name": "@overpunch/sanity-convert-references",
   "version": "2.0.2",
   "description": "Reference optimization utility for Sanity Studio — convert strong to weak references and scan for broken references",
   "main": "dist/index.js",
@@ -51,6 +51,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@liiift-studio/sanity-ui-compat": "^0.1.0"
+    "@overpunch/sanity-ui-compat": "^0.1.0"
   }
 }

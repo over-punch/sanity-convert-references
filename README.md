@@ -2,8 +2,8 @@
 
 > Reference optimization utility for Sanity Studio — convert strong references to weak references for any document types, and scan for broken references.
 
-[![npm version](https://img.shields.io/npm/v/@liiift-studio/sanity-convert-references.svg)](https://www.npmjs.com/package/@liiift-studio/sanity-convert-references)
-[![license](https://img.shields.io/npm/l/@liiift-studio/sanity-convert-references.svg)](https://www.npmjs.com/package/@liiift-studio/sanity-convert-references)
+[![npm version](https://img.shields.io/npm/v/@overpunch/sanity-convert-references.svg)](https://www.npmjs.com/package/@overpunch/sanity-convert-references)
+[![license](https://img.shields.io/npm/l/@overpunch/sanity-convert-references.svg)](https://www.npmjs.com/package/@overpunch/sanity-convert-references)
 [![Sanity Studio v3 to v6](https://img.shields.io/badge/Sanity-Studio_v3_to_v6-f03e2f.svg)](https://www.sanity.io/)
 ![React](https://img.shields.io/badge/React-18_and_19-61dafb.svg)
 
@@ -62,10 +62,10 @@ scan.
 ## Install
 
 ```bash
-npm install @liiift-studio/sanity-convert-references
+npm install @overpunch/sanity-convert-references
 ```
 
-> Published as **`@liiift-studio/sanity-convert-references`** (scoped). The default export is the React component `ConvertToWeakReferences`.
+> Published as **`@overpunch/sanity-convert-references`** (scoped). The default export is the React component `ConvertToWeakReferences`.
 
 ### Requirements
 
@@ -97,7 +97,7 @@ compiles, ships — and then throws at runtime in the Studio.
 
 So this package **imports no `@sanity/ui` or `@sanity/icons` symbol directly.**
 Every primitive and icon is routed through
-[`@liiift-studio/sanity-ui-compat`](https://www.npmjs.com/package/@liiift-studio/sanity-ui-compat),
+[`@overpunch/sanity-ui-compat`](https://www.npmjs.com/package/@overpunch/sanity-ui-compat),
 which resolves the *installed* namespace at runtime and falls back to a plain DOM
 element if a given primitive is absent. That indirection, not a version matrix in
 CI, is what makes one artifact work across v3–v6.
@@ -116,7 +116,7 @@ The component renders a panel and needs a configured Sanity `client` passed as a
 ```jsx
 // The component is the package's DEFAULT export — a named import resolves to
 // `undefined` and React will throw "Element type is invalid" at render time.
-import ConvertToWeakReferences from '@liiift-studio/sanity-convert-references'
+import ConvertToWeakReferences from '@overpunch/sanity-convert-references'
 import {useClient} from 'sanity'
 
 export function ReferenceTools() {
