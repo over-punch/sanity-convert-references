@@ -10,7 +10,7 @@
 A Sanity Studio desk-tool panel that bulk-rewrites a document's **strong** references into **weak** references (`_weak: true`), and a companion scanner that finds references whose target no longer exists. Use it when a strong reference is blocking a delete/unpublish, or to audit a dataset for orphaned references.
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/Liiift-Studio/sanity-convert-references/main/assets/strong-to-weak.svg?v=1" alt="Diagram: a strong reference (which blocks deleting its target) being rewritten into a weak reference by adding _weak: true, after which the target can be deleted freely." width="760">
+	<img src="https://raw.githubusercontent.com/over-punch/sanity-convert-references/main/assets/strong-to-weak.svg?v=1" alt="Diagram: a strong reference (which blocks deleting its target) being rewritten into a weak reference by adding _weak: true, after which the target can be deleted freely." width="760">
 </p>
 
 A **strong** reference is referentially enforced — Sanity will not let you delete or unpublish a document while another document still strongly references it. A **weak** reference relaxes that constraint: the target can be deleted, and the reference is simply left dangling. Converting strong → weak is how you break those publish/delete locks for non-critical relationships.
@@ -201,8 +201,8 @@ Be aware of the implications before running it:
 
 ## Repository
 
-- **Source & issues:** https://github.com/Liiift-Studio/sanity-convert-references
-- Part of the [Liiift Studio Sanity tools](https://github.com/Liiift-Studio) suite.
+- **Source & issues:** https://github.com/over-punch/sanity-convert-references
+- Part of the [Liiift Studio Sanity tools](https://github.com/over-punch) suite.
 
 ## License
 
